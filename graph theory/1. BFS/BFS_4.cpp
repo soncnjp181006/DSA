@@ -17,14 +17,8 @@ int dy[4] = {0, 0, -1, 1};
 
 // Hàm check tọa độ có thỏa mãn hay không 
 bool isValid(int x, int y) {
-
-    // Nếu tọa độ không hợp lệ
-    if(x < 0 || x >= n || y < 0 || y >= m) return false;
-
-    // Nếu giá trị không hợp lệ
-    if(grid[x][y] == '#') return false;
-
-    return true;
+    return x >= 0 && x < n && y >= 0 && y < m && 
+        grid[x][y] != '#' && !visited[x][y];
 } 
 
 // BFS tìm đường đi ngắn nhất từ A -> B
@@ -33,6 +27,7 @@ int bfs(int start_x, int start_y) {
     queue<pair<int, int>> q;
     q.push({start_x, start_y});
     visited[start_x][start_y] = true;
+    dist[start_x][start_y] = 0;
 
     while(!q.empty()) {
         auto[x, y] = q.front(); q.pop();
@@ -91,9 +86,10 @@ int main() {
 
     // Nếu không thăm được B
     if(length == -1) {
-        cout << "-1";
+        cout << "NO";
         return 0;
-    }
+    } 
+    else cout << "YES" << endl;
 
     // Tìm path đi từ A -> B
     while(x != xA || y != yA) {
